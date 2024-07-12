@@ -1,6 +1,20 @@
-const slider = document.getElementById('myRange');
-const output = document.getElementById('sliderValue');
+const column_slider = document.getElementById('ColumnRangeSlider');
+const row_slider = document.getElementById('RowRangeSlider');
+const column_count = document.getElementById('ColumnRange');
+const row_count = document.getElementById('RowRange');
 const container = document.getElementById('grid-container');
+const colorMap = [
+    "#EEF4FA", // 1-10
+    "#DBE6F4", // 11-20
+    "#C9D9EC", // 21-30
+    "#ADCCE1", // 31-40
+    "#9CC2DC", // 41-50
+    "#6BA1CC", // 51-60
+    "#5089BE", // 61-70
+    "#396FB1", // 71-80
+    "#2F62A7", // 81-90
+    "#1F478D"  // 91-100
+];
 
 function createGrid(rows, cols) {
     container.innerHTML = ''; // Clear any existing grid
