@@ -4,8 +4,8 @@ body {
 }
 /* Style for the grid cells */
 .grid-item {
-  width: 12px;
-  height: 12px;
+  width: 20px;
+  height: 20px;
   margin: 1px;
   background-color: #555;
   border: 0px solid yellow;
@@ -38,28 +38,29 @@ body {
 
 /* Style for the slider */
 .slider {
-  width: 100%;
-  align-items: center;
-  height: 10px;
-  background-color: #d3d3d3;
+  width: 100%; /* Full-width */
+  height: 25px;
+  background: #222; /* Grey background */
   outline: none;
-  opacity: 0.7;
+  opacity: 0.8;
   transition: opacity 0.2s;
 }
 
+.slider:hover {
+  opacity: 1; /* Fully shown on hover */
+}
+
 .slider::-webkit-slider-thumb {
-  -webkit-appearance: none;
-  appearance: none;
   width: 25px;
   height: 25px;
-  background: #04AA6D;
+  background: #04AA6D; /* Green thumb */
   cursor: pointer;
 }
 
 .slider::-moz-range-thumb {
   width: 25px;
   height: 25px;
-  background: #04AA6D;
+  background: #04AA6D; /* Green thumb */
   cursor: pointer;
 }
 
