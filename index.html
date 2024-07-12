@@ -1,12 +1,12 @@
 <!DOCTYPE html>
 <head>
-    <title>Visualizer</title>
+    <title>Dijkstra Visualizer</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <!-- Button to open the swipe menu -->  
     <nav class="navbar">
-        <button class="settings-button"onclick="openSwipeMenu()">&#x2699; Settings</button>
+        <!-- Button to open the swipe menu -->  
+        <button class="settings-button" onclick="openSwipeMenu()">&#x2699; Settings</button>
         <button class="run-button">&#9658; Run</button>
     </nav>
 
@@ -14,8 +14,10 @@
     <div class="swipe-menu">
         <span class="close-button" onclick="closeSwipeMenu()">×</span>
         <!-- Menu content here -->
-        <p style="color: whitesmoke;">Grid size: <span id="sliderValue">50</span></p>
-        <input type="range" min="10" max="70" value="20" class="slider" id="myRange">  
+        <p style="color: whitesmoke;">Column Count: <span id="ColumnRange">20</span></p>
+        <input type="range" min="5" max="40" value="20" class="slider" id="ColumnRangeSlider">
+        <p style="color: whitesmoke;">Row Count: <span id="RowRange">20</span></p>
+        <input type="range" min="5" max="40" value="20" class="slider" id="RowRangeSlider">  
     </div>
 
     <script src="grid.js"></script>
