@@ -21,22 +21,40 @@ function createGrid(rows, cols) {
     container.style.display = 'grid';
     container.style.gridTemplateColumns = `repeat(${cols}, 1fr)`;
     container.style.gridTemplateRows = `repeat(${rows}, 1fr)`;
-
+    
     for (let i = 0; i < rows * cols; i++) {
         const cell = document.createElement('div');
-            cell.className = 'grid-item';
-            container.appendChild(cell);
+        cell.className = 'grid-item';
+        if (i === 0 || i === rows * cols - 1) {
+            cell.textContent = '0'; // Display "0" in the first and last cell (Source and Destination)
+            cell.style.textAlign = 'center'; // Center numbers horizontally
+        } else {
+            const randomNumber = Math.floor(Math.random() * 99) + 1;
+            cell.textContent = randomNumber.toString();
+            cell.style.color = '#222'; // Set font color
+            cell.style.textAlign = 'center'; // Center number horizontally
+            cell.style.display = 'grid';
+            cell.style.alignItems = 'center'; // Center number vertically
+            
+            const colorIndex = Math.floor((randomNumber - 1) / 10); // Map to color index
+            cell.style.backgroundColor = colorMap[colorIndex];
         }
+        container.appendChild(cell);
     }
+}
 
-// Create N x N grid
 createGrid(20, 20);
 
-// Display the slider value
-output.innerHTML = slider.value;
+// Update the current slider value for the column count (each time the slider is changed)
+column_slider.oninput = function() {
+    column_count.innerHTML = this.value;
+    // Create grid - keep same value for row count, use updated value for column count
+    createGrid(row_count.innerHTML, column_count.innerHTML);
+};
 
-// Update the current slider value (each time you drag the slider handle)
-slider.oninput = function() {
-    output.innerHTML = this.value;
-    createGrid(this.value, this.value);
+// Update the current slider value for the row count (each time the slider is changed)
+row_slider.oninput = function() {
+    row_count.innerHTML = this.value;
+    // Create grid - keep same value for column count, use updated value for row count
+    createGrid(row_count.innerHTML, column_count.innerHTML);
 };
