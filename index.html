@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<head>
+    <title>Visualizer</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Button to open the swipe menu -->  
+    <nav class="navbar">
+        <button class="settings-button"onclick="openSwipeMenu()">&#x2699; Settings</button>
+        <button class="run-button">&#9658; Run</button>
+    </nav>
+
+    <div id="grid-container"></div>
+    <div class="swipe-menu">
+        <span class="close-button" onclick="closeSwipeMenu()">×</span>
+        <!-- Menu content here -->
+        <p style="color: whitesmoke;">Grid size: <span id="sliderValue">50</span></p>
+        <input type="range" min="10" max="70" value="20" class="slider" id="myRange">  
+    </div>
+
+    <script src="grid.js"></script>
+    <script src="menu.js"></script>
+</body>
+</html>
