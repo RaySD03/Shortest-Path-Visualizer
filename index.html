@@ -4,20 +4,27 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
+    <!-- Button to open the swipe menu -->  
     <nav class="navbar">
-        <!-- Button to open the swipe menu -->  
         <button class="settings-button" onclick="openSwipeMenu()">&#x2699; Settings</button>
         <button class="run-button">&#9658; Run</button>
     </nav>
 
-    <div id="grid-container"></div>
+    <div class="wrapper">
+        <div id="grid-container"></div>
+    </div>
     <div class="swipe-menu">
         <span class="close-button" onclick="closeSwipeMenu()">×</span>
         <!-- Menu content here -->
-        <p style="color: whitesmoke;">Column Count: <span id="ColumnRange">20</span></p>
-        <input type="range" min="5" max="40" value="20" class="slider" id="ColumnRangeSlider">
-        <p style="color: whitesmoke;">Row Count: <span id="RowRange">20</span></p>
-        <input type="range" min="5" max="40" value="20" class="slider" id="RowRangeSlider">  
+        <div class="settings">
+            <p style="color: whitesmoke;">Column Count: <span id="ColumnRange">20</span></p>
+            <input type="range" min="5" max="40" value="20" class="slider" id="ColumnRangeSlider" onchange="extractNumbersFromGrid()">
+            <hr>
+            <p style="color: whitesmoke;">Row Count: <span id="RowRange">20</span></p>
+            <input type="range" min="5" max="40" value="20" class="slider" id="RowRangeSlider" onchange="extractNumbersFromGrid()">  
+            <hr>
+            <button class="randomize-button" onclick="createGrid(row_count.innerHTML, column_count.innerHTML);">Randomize Weights</button>
+        </div>
     </div>
 
     <script src="grid.js"></script>
