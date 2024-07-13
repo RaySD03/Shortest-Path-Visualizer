@@ -1,20 +1,56 @@
 body {
-  background: #252525; 
+  background: #232323; 
   margin: 0;
 }
+
+hr {
+  border-color: rgb(107, 106, 106);
+}
+
+p {
+  font-family: Arial, sans-serif;
+  font-size: 15px;
+}
+
+label {
+  font-family: Arial, sans-serif;
+}
+
+.settings {
+  margin-left: 15px;
+  margin-right: 15px;
+}
+
 /* Style for the grid cells */
 .grid-item {
-  width: 20px;
-  height: 20px;
+  width: 21px;
+  height: 21px;
   margin: 1px;
   background-color: #555;
   border: 0px solid yellow;
+  transition: background-color 0.5s ease;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr); /* Adjust as needed */
+  grid-row-gap: 1em;
+  grid-column-gap: 1em;
 }
 
 #grid-container {
   width: fit-content;
   margin-top: 10px;
-  margin-left: 10px; 
+  margin-left: 10px;
+  align-items: center;
+  justify-content: center; 
+}
+
+.wrapper {
+  display: grid;
+  place-items: center; /* Center horizontally and vertically */
+  min-height: 90vh; /* Set minimum height to viewport height */
+  padding: 12px; /* Add minimal padding */
 }
 
 .swipe-menu {
@@ -44,6 +80,7 @@ body {
   outline: none;
   opacity: 0.8;
   transition: opacity 0.2s;
+  accent-color: azure;
 }
 
 .slider:hover {
@@ -53,14 +90,14 @@ body {
 .slider::-webkit-slider-thumb {
   width: 25px;
   height: 25px;
-  background: #04AA6D; /* Green thumb */
+  background: #04AA6D;
   cursor: pointer;
 }
 
 .slider::-moz-range-thumb {
   width: 25px;
   height: 25px;
-  background: #04AA6D; /* Green thumb */
+  background: #04AA6D;
   cursor: pointer;
 }
 
@@ -97,6 +134,10 @@ body {
   cursor: pointer;
 }
 
+.settings-button:hover {
+  background-color: #525252;
+}
+
 .run-button {
   background-color: #3659A6;
   color: #fff;
@@ -104,4 +145,41 @@ body {
   border: none;
   padding: 8px 16px;
   cursor: pointer;
+}
+
+.run-button:hover {
+  background-color: #4269bb;
+}
+
+.randomize-button {
+  background-color: #373f50;
+  color: #fff;
+  border-radius: 5px;
+  border: none;
+  padding: 8px 16px;
+  margin-top: 15px;
+  cursor: pointer;
+  opacity: 0.8;
+}
+
+.randomize-button:hover {
+  opacity: 1.0;
+}
+
+.zoom-button {
+  background-color: #454951;
+  color: #fff;
+  margin-left: 2px;
+  margin-right: 2px;
+  border-radius: 5px;
+  border: none;
+  padding: 2px 16px;
+  font-size: 20px;
+  cursor: pointer;
+}
+
+.zoom-label {
+  font-size: 12px;
+  padding: 0px;
+  margin-right: 8px;
 }
