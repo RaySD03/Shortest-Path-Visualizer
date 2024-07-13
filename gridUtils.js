@@ -34,75 +34,75 @@ function extractNumbersFromGrid() {
     return weightsArray;    
 }
 
-function dijkstra(grid) {
-    const rows = grid.length;
-    const cols = grid[0].length;
-    const start = [0, 0];
-    const end = [rows - 1, cols - 1];
+function dijkstra(distances) {
+    const n = distances.length; // Number of rows
+    const m = distances[0].length; // Number of columns
+    const costs = Array(n * m).fill(Infinity);
+    const parents = Array(n * m).fill(null);
+    const processed = [];
+    const startNode = 0; // Index of the start cell (first row, first column)
 
-    const isValid = (i, j) => i >= 0 && i < rows && j >= 0 && j < cols;
+    costs[startNode] = 0;
 
-    const distances = new Array(rows).fill().map(() => new Array(cols).fill(Number.MAX_SAFE_INTEGER));
-    distances[start[0]][start[1]] = 0;
+    while (true) {
+        let minCost = Infinity;
+        let node = null;
 
-    const visited = new Array(rows).fill().map(() => new Array(cols).fill(false));
+        // Find the unprocessed cell with the least cost
+        for (let i = 0; i < n * m; i++) {
+            if (!processed.includes(i) && costs[i] < minCost) {
+                minCost = costs[i];
+                node = i;
+            }
+        }
 
-    const queue = [start];
+        if (node === null) break; // All cells processed
 
-    // Initialize an array to store the path
-    const path = [];
+        const row = Math.floor(node / m);
+        const col = node % m;
 
-    while (queue.length > 0) {
-        const [row, col] = queue.shift();
-
-        if (visited[row][col]) continue;
-        visited[row][col] = true;
-
+        // Explore neighbors
         const neighbors = [
-            [row - 1, col],
-            [row + 1, col],
-            [row, col - 1],
-            [row, col + 1]
+            [row - 1, col], // Up
+            [row + 1, col], // Down
+            [row, col - 1], // Left
+            [row, col + 1]  // Right
         ];
 
-        for (const [nRow, nCol] of neighbors) {
-            if (isValid(nRow, nCol)) {
-                const newDist = distances[row][col] + grid[nRow][nCol];
-                if (newDist < distances[nRow][nCol]) {
-                    distances[nRow][nCol] = newDist;
-                    queue.push([nRow, nCol]);
+        for (const [r, c] of neighbors) {
+            if (r >= 0 && r < n && c >= 0 && c < m) {
+                const neighborNode = r * m + c;
+                const newCost = costs[node] + distances[r][c];
+                if (newCost < costs[neighborNode]) {
+                    costs[neighborNode] = newCost;
+                    parents[neighborNode] = node;
                 }
             }
         }
+
+        processed.push(node);
     }
 
-    // Backtrack from the end node to the start node
-    let currentNode = end;
-    while (currentNode[0] !== start[0] || currentNode[1] !== start[1]) {
-        path.push(currentNode);
-        const [row, col] = currentNode;
-        const neighbors = [
-            [row - 1, col],
-            [row + 1, col],
-            [row, col - 1],
-            [row, col + 1]
-        ];
-        for (const [nRow, nCol] of neighbors) {
-            if (isValid(nRow, nCol) && distances[nRow][nCol] + grid[row][col] === distances[row][col]) {
-                currentNode = [nRow, nCol];
-                break;
-            }
-        }
-    }
-    path.push(start);
+    // Reconstruct the shortest path
+    let path = [n * m - 1];
+    let parent = parents[n * m - 1];
 
-    // Print the coordinates(columns and rows) in the shortest path
-    console.log("Shortest path:");
-    for (const [row, col] of path.reverse()) {
-        console.log(`Node (${row}, ${col})`);
+    while (parent !== null) {
+        path.unshift(parent);
+        parent = parents[parent];
     }
 
-    shortestPathLength = distances[end[0]][end[1]] || -1;
-    console.log("Shortest path length:", shortestPathLength);
-    return shortestPathLength;
+    // Create an array of objects representing each cell in the shortest path
+    const cellCoordinates = path.map(index => ({
+        row: Math.floor(index / m),
+        col: index % m
+    }));
+
+     // Print the coordinates (row and column indices) of the shortest path
+     console.log('Coordinates of each cell in the shortest path:');
+     for (const { row, col } of cellCoordinates) {
+        console.log(`Row: ${row}, Column: ${col}`);
+     }
+ 
+    return cellCoordinates;
 }
