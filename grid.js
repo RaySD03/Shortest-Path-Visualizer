@@ -16,45 +16,69 @@ const colorMap = [
     "#1F478D"  // 91-100
 ];
 
+// Function to calculate brightness of a color
+function calculateLuminance(hexColor) {
+    const r = parseInt(hexColor.slice(1, 3), 16) / 255;
+    const g = parseInt(hexColor.slice(3, 5), 16) / 255;
+    const b = parseInt(hexColor.slice(5, 7), 16) / 255;
+    return 0.2126 * r + 0.7152 * g + 0.0722 * b;
+}
+
 function createGrid(rows, cols) {
+    const container = document.getElementById('grid-container');
     container.innerHTML = ''; // Clear any existing grid
     container.style.display = 'grid';
     container.style.gridTemplateColumns = `repeat(${cols}, 1fr)`;
     container.style.gridTemplateRows = `repeat(${rows}, 1fr)`;
-    
-    for (let i = 0; i < rows * cols; i++) {
-        const cell = document.createElement('div');
-        cell.className = 'grid-item';
-        if (i === 0 || i === rows * cols - 1) {
-            cell.textContent = '0'; // Display "0" in the first and last cell (Source and Destination)
-            cell.style.textAlign = 'center'; // Center numbers horizontally
-        } else {
-            const randomNumber = Math.floor(Math.random() * 99) + 1;
-            cell.textContent = randomNumber.toString();
-            cell.style.color = '#222'; // Set font color
+
+    for (let row = 1; row <= rows; row++) {
+        for (let col = 1; col <= cols; col++) {
+            const cell = document.createElement('div');
+            cell.className = 'grid-item';
+            cell.textContent = getRandomNumber().toString();
             cell.style.textAlign = 'center'; // Center number horizontally
             cell.style.display = 'grid';
             cell.style.alignItems = 'center'; // Center number vertically
-            
-            const colorIndex = Math.floor((randomNumber - 1) / 10); // Map to color index
-            cell.style.backgroundColor = colorMap[colorIndex];
+
+            // Set data attributes for row and column
+            cell.setAttribute('data-row', row);
+            cell.setAttribute('data-col', col);
+
+            if ((row == 1 && col == 1) || (row == rows && col == cols)) {
+                cell.textContent = '0'; // Display "0" in the first and last cell
+            } else {
+                cell.textContent = getRandomNumber().toString();
+                const colorIndex = Math.floor((parseInt(cell.textContent, 10) - 1) / 10);
+                const backgroundColor = colorMap[colorIndex];
+                cell.style.backgroundColor = backgroundColor;
+
+                // Calculate luminance (brightness) of the background color
+                const luminance = calculateLuminance(backgroundColor);
+
+                // Set font color based on luminance
+                cell.style.color = luminance > 0.5 ? '#000' : '#fff'; // Dark background: white font, Light background: black font
+            }
+
+            container.appendChild(cell);
         }
-        container.appendChild(cell);
     }
 }
 
+function getRandomNumber() {
+    return Math.floor(Math.random() * 99) + 1;
+}
+
+// Create N x N grid
 createGrid(20, 20);
 
-// Update the current slider value for the column count (each time the slider is changed)
+// Update the current slider value (each time you drag the slider handle)
 column_slider.oninput = function() {
     column_count.innerHTML = this.value;
-    // Create grid - keep same value for row count, use updated value for column count
     createGrid(row_count.innerHTML, column_count.innerHTML);
 };
 
-// Update the current slider value for the row count (each time the slider is changed)
+// Update the current slider value (each time you drag the slider handle)
 row_slider.oninput = function() {
     row_count.innerHTML = this.value;
-    // Create grid - keep same value for column count, use updated value for row count
     createGrid(row_count.innerHTML, column_count.innerHTML);
 };
