@@ -2,6 +2,8 @@ const column_slider = document.getElementById('ColumnRangeSlider');
 const row_slider = document.getElementById('RowRangeSlider');
 const column_count = document.getElementById('ColumnRange');
 const row_count = document.getElementById('RowRange');
+const variance_range = document.getElementById('VarianceRange');
+const variance_slider = document.getElementById('VarianceRangeSlider');
 const container = document.getElementById('grid-container');
 const colorMap = [
     "#EEF4FA", // 1-10
@@ -24,18 +26,18 @@ function calculateLuminance(hexColor) {
     return 0.2126 * r + 0.7152 * g + 0.0722 * b;
 }
 
-function createGrid(rows, cols) {
+function createGrid(rows, cols, rand_range) {
     const container = document.getElementById('grid-container');
     container.innerHTML = ''; // Clear any existing grid
     container.style.display = 'grid';
     container.style.gridTemplateColumns = `repeat(${cols}, 1fr)`;
     container.style.gridTemplateRows = `repeat(${rows}, 1fr)`;
 
-    for (let row = 1; row <= rows; row++) {
-        for (let col = 1; col <= cols; col++) {
+    for (let row = 0; row < rows; row++) {
+        for (let col = 0; col < cols; col++) {
             const cell = document.createElement('div');
             cell.className = 'grid-item';
-            cell.textContent = getRandomNumber().toString();
+            cell.textContent = getRandomNumber(rand_range).toString();
             cell.style.textAlign = 'center'; // Center number horizontally
             cell.style.display = 'grid';
             cell.style.alignItems = 'center'; // Center number vertically
@@ -44,10 +46,9 @@ function createGrid(rows, cols) {
             cell.setAttribute('data-row', row);
             cell.setAttribute('data-col', col);
 
-            if ((row == 1 && col == 1) || (row == rows && col == cols)) {
+            if ((row == 0 && col == 0) || (row == (rows-1) && col == (cols-1))) {
                 cell.textContent = '0'; // Display "0" in the first and last cell
             } else {
-                cell.textContent = getRandomNumber().toString();
                 const colorIndex = Math.floor((parseInt(cell.textContent, 10) - 1) / 10);
                 const backgroundColor = colorMap[colorIndex];
                 cell.style.backgroundColor = backgroundColor;
@@ -64,21 +65,27 @@ function createGrid(rows, cols) {
     }
 }
 
-function getRandomNumber() {
-    return Math.floor(Math.random() * 99) + 1;
+function getRandomNumber(n) {
+    return Math.floor(Math.random() * n) + 1;
 }
 
 // Create N x N grid
-createGrid(20, 20);
+createGrid(20, 20, variance_range.innerHTML);
 
 // Update the current slider value (each time you drag the slider handle)
 column_slider.oninput = function() {
     column_count.innerHTML = this.value;
-    createGrid(row_count.innerHTML, column_count.innerHTML);
+    createGrid(row_count.innerHTML, column_count.innerHTML, variance_range.innerHTML);
 };
 
 // Update the current slider value (each time you drag the slider handle)
 row_slider.oninput = function() {
     row_count.innerHTML = this.value;
-    createGrid(row_count.innerHTML, column_count.innerHTML);
+    createGrid(row_count.innerHTML, column_count.innerHTML, variance_range.innerHTML);
+};
+
+// Update the current slider value (each time you drag the slider handle)
+variance_slider.oninput = function() {
+    variance_range.innerHTML = this.value;
+    createGrid(row_count.innerHTML, column_count.innerHTML, variance_range.innerHTML);
 };
