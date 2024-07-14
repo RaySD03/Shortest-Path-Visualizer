@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <head>
-    <title>Dijkstra Visualizer</title>
+    <title>Visualizer</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -23,12 +23,19 @@
             <p style="color: whitesmoke;">Row Count: <span id="RowRange">20</span></p>
             <input type="range" min="5" max="40" value="20" class="slider" id="RowRangeSlider" onchange="extractNumbersFromGrid()">  
             <hr>
-            <button class="randomize-button" onclick="createGrid(row_count.innerHTML, column_count.innerHTML);">Randomize Weights</button>
+            <p style="color: whitesmoke;">Random Distance Range: <span id="VarianceRange">95</span></p>
+            <input type="range" min="10" max="99" value="95" class="slider" id="VarianceRangeSlider" onchange="extractNumbersFromGrid()">  
+            <hr>
+            <label for="adapt">
+                <input type="checkbox" id="adapt" name="accept" value="no"> Adapt colorMap to range
+            </label>
+            <hr>
+            <button class="randomize-button" onclick="createGrid(row_count.innerHTML, column_count.innerHTML, variance_range.innerHTML);">Randomize Weights</button>
         </div>
     </div>
 
     <script src="grid.js"></script>
-    <script src="gridUtils.js"></script>
+    <script src="gridUtils.js" defer></script>
     <script src="menu.js"></script>
 </body>
 </html>
