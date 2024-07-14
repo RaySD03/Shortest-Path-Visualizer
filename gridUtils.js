@@ -44,6 +44,7 @@ function run() {
     gridRowCount = gridComputedStyle.getPropertyValue('grid-template-rows').split(' ').length;
     const weights = extractNumbersFromGrid();
     const shortestPathCoords = dijkstra(weights);
+    animate(shortestPathCoords);
 }
 
 function dijkstra(distances) {
@@ -117,4 +118,21 @@ function dijkstra(distances) {
      }
  
     return cellCoordinates;
+}
+
+async function animate(coordinates) {
+    const animationDuration = 100; // milliseconds
+
+    async function changeCellColor(element, color) {
+        element.style.background = color;
+        await new Promise(resolve => setTimeout(resolve, animationDuration));
+    }
+
+    for (const { row, col } of coordinates) {
+        const cell = gridContainer.querySelector(`[data-col="${col}"][data-row="${row}"]`);
+        if (cell) {
+            cell.style.color = 'white';
+            await changeCellColor(cell, 'linear-gradient(to top, #FF7F27, #B127ED)');
+        }
+    }
 }
