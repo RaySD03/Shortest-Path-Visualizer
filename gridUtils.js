@@ -8,10 +8,11 @@ gridRowCount = gridComputedStyle.getPropertyValue('grid-template-rows').split(' 
 
 function extractNumbersFromGrid() {
     const gridContainer = document.getElementById('grid-container');
-    const cells = gridContainer.querySelectorAll('.grid-item'); // The class name is 'grid-item' for cells
+    const cells = gridContainer.querySelectorAll('.grid-item'); // The class name is 'grid-item'
     const weightsArray = [];
    
     let rowIndex = 0;
+
     let colIndex = 0;
 
     cells.forEach((cell) => {
@@ -34,6 +35,18 @@ function extractNumbersFromGrid() {
     return weightsArray;    
 }
 
+function isEqual(a, b) {
+    return a[0] === b[0] && a[1] === b[1];
+}
+
+function run() {
+    console.clear();
+    gridColumnCount = gridComputedStyle.getPropertyValue('grid-template-columns').split(' ').length;
+    gridRowCount = gridComputedStyle.getPropertyValue('grid-template-rows').split(' ').length;
+    const weights = extractNumbersFromGrid();
+    dijkstra(weights);
+}
+
 function dijkstra(distances) {
     const n = distances.length; // Number of rows
     const m = distances[0].length; // Number of columns
@@ -48,7 +61,7 @@ function dijkstra(distances) {
         let minCost = Infinity;
         let node = null;
 
-        // Find the unprocessed cell with the least cost
+        // Find the unprocessed cell with the lowest cost
         for (let i = 0; i < n * m; i++) {
             if (!processed.includes(i) && costs[i] < minCost) {
                 minCost = costs[i];
@@ -61,7 +74,7 @@ function dijkstra(distances) {
         const row = Math.floor(node / m);
         const col = node % m;
 
-        // Explore neighbors
+        // Explore neighboring cells
         const neighbors = [
             [row - 1, col], // Up
             [row + 1, col], // Down
@@ -92,17 +105,19 @@ function dijkstra(distances) {
         parent = parents[parent];
     }
 
-    // Create an array of objects representing each cell in the shortest path
-    const cellCoordinates = path.map(index => ({
-        row: Math.floor(index / m),
-        col: index % m
-    }));
-
-     // Print the coordinates (row and column indices) of the shortest path
-     console.log('Coordinates of each cell in the shortest path:');
-     for (const { row, col } of cellCoordinates) {
+    // Print the coordinates (row and column indices) of the shortest path
+    console.log('Coordinates of each cell in the shortest path:');
+    for (const index of path) {
+        const row = Math.floor(index / m);
+        const col = index % m;
         console.log(`Row: ${row}, Column: ${col}`);
-     }
- 
-    return cellCoordinates;
+
+        const cell = gridContainer.querySelector(`[data-col="${col}"][data-row="${row}"]`);
+        if (cell) {
+            cell.style.color = 'white';
+            cell.style.background = 'linear-gradient(to top, #FF7F27,#B127ED)';
+        }
+    }
+
+    return path;
 }
