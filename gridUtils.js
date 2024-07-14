@@ -12,7 +12,6 @@ function extractNumbersFromGrid() {
     const weightsArray = [];
    
     let rowIndex = 0;
-
     let colIndex = 0;
 
     cells.forEach((cell) => {
@@ -44,7 +43,7 @@ function run() {
     gridColumnCount = gridComputedStyle.getPropertyValue('grid-template-columns').split(' ').length;
     gridRowCount = gridComputedStyle.getPropertyValue('grid-template-rows').split(' ').length;
     const weights = extractNumbersFromGrid();
-    dijkstra(weights);
+    const shortestPathCoords = dijkstra(weights);
 }
 
 function dijkstra(distances) {
@@ -61,7 +60,7 @@ function dijkstra(distances) {
         let minCost = Infinity;
         let node = null;
 
-        // Find the unprocessed cell with the lowest cost
+        // Find the unprocessed cell with the least cost
         for (let i = 0; i < n * m; i++) {
             if (!processed.includes(i) && costs[i] < minCost) {
                 minCost = costs[i];
@@ -74,7 +73,7 @@ function dijkstra(distances) {
         const row = Math.floor(node / m);
         const col = node % m;
 
-        // Explore neighboring cells
+        // Explore neighbors
         const neighbors = [
             [row - 1, col], // Up
             [row + 1, col], // Down
@@ -105,19 +104,17 @@ function dijkstra(distances) {
         parent = parents[parent];
     }
 
-    // Print the coordinates (row and column indices) of the shortest path
-    console.log('Coordinates of each cell in the shortest path:');
-    for (const index of path) {
-        const row = Math.floor(index / m);
-        const col = index % m;
+    // Create an array of objects representing each cell in the path
+    const cellCoordinates = path.map(index => ({
+        row: Math.floor(index / m),
+        col: index % m
+    }));
+
+     // Print the coordinates (row and column indices) of the shortest path
+     console.log('Coordinates of each cell in the shortest path:');
+     for (const { row, col } of cellCoordinates) {
         console.log(`Row: ${row}, Column: ${col}`);
-
-        const cell = gridContainer.querySelector(`[data-col="${col}"][data-row="${row}"]`);
-        if (cell) {
-            cell.style.color = 'white';
-            cell.style.background = 'linear-gradient(to top, #FF7F27,#B127ED)';
-        }
-    }
-
-    return path;
+     }
+ 
+    return cellCoordinates;
 }
