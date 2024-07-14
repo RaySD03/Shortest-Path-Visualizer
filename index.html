@@ -25,10 +25,11 @@
             <hr>
             <p style="color: whitesmoke;">Random Distance Range: &#40;1-<span id="VarianceRange">95</span>&#41;</p>
             <input type="range" min="10" max="99" value="95" class="slider" id="VarianceRangeSlider" onchange="extractNumbersFromGrid()">  
-            <hr>
-            <label for="adapt">
-                <input type="checkbox" id="adapt" name="accept" value="no"> Adapt colorMap to range
-            </label>
+            <div style="margin-top: 12px;">
+                <label for="adaptColorMap" style="color: lightgrey;">
+                <input type="checkbox" id="adapt" value="false"> Adapt colorMap to range
+                </label>
+            </div> 
             <hr>
             <button class="randomize-button" onclick="createGrid(row_count.innerHTML, column_count.innerHTML, variance_range.innerHTML);">Randomize Weights</button>
         </div>
