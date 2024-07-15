@@ -5,6 +5,7 @@ const row_count = document.getElementById('RowRange');
 const variance_range = document.getElementById('VarianceRange');
 const variance_slider = document.getElementById('VarianceRangeSlider');
 const container = document.getElementById('grid-container');
+adaptColorMap = document.querySelector('#adapt');
 const colorMap = [
     "#EEF4FA", // 1-10
     "#DBE6F4", // 11-20
@@ -47,9 +48,13 @@ function createGrid(rows, cols, rand_range) {
             cell.setAttribute('data-col', col);
 
             if ((row == 0 && col == 0) || (row == (rows-1) && col == (cols-1))) {
-                cell.textContent = '0'; // Display "0" in the first and last cell
+                cell.textContent = '0'; // Display "0" in the first and last cells
+                cell.style.backgroundColor = "#ddd";
             } else {
-                const colorIndex = Math.floor((parseInt(cell.textContent, 10) - 1) / 10);
+                colorIndex = Math.floor((parseInt(cell.textContent, 10) - 1) / 10);
+                if (adaptColorMap.checked) {
+                    colorIndex = Math.floor((parseInt(cell.textContent, 10) - 1) / (variance_range.innerHTML / 10));
+                }   
                 const backgroundColor = colorMap[colorIndex];
                 cell.style.backgroundColor = backgroundColor;
 
@@ -69,22 +74,22 @@ function getRandomNumber(n) {
     return Math.floor(Math.random() * n) + 1;
 }
 
-// Create N x N grid
+// Create a 20 x 20 default grid
 createGrid(20, 20, variance_range.innerHTML);
 
-// Update the current slider value (each time you drag the slider handle)
+// Update the current column_slider value
 column_slider.oninput = function() {
     column_count.innerHTML = this.value;
     createGrid(row_count.innerHTML, column_count.innerHTML, variance_range.innerHTML);
 };
 
-// Update the current slider value (each time you drag the slider handle)
+// Update the current row_slider value
 row_slider.oninput = function() {
     row_count.innerHTML = this.value;
     createGrid(row_count.innerHTML, column_count.innerHTML, variance_range.innerHTML);
 };
 
-// Update the current slider value (each time you drag the slider handle)
+// Update the current variance_slider value
 variance_slider.oninput = function() {
     variance_range.innerHTML = this.value;
     createGrid(row_count.innerHTML, column_count.innerHTML, variance_range.innerHTML);
