@@ -1,12 +1,12 @@
 const gridContainer = document.getElementById('grid-container');
 const gridComputedStyle = window.getComputedStyle(gridContainer);
-// Get the number of grid columns
-gridColumnCount = gridComputedStyle.getPropertyValue('grid-template-columns').split(' ').length;
-
-// Get the number of grid rows
-gridRowCount = gridComputedStyle.getPropertyValue('grid-template-rows').split(' ').length;
 
 function extractNumbersFromGrid() {
+    // Get the number of grid columns
+    gridColumnCount = gridComputedStyle.getPropertyValue('grid-template-columns').split(' ').length;
+    // Get the number of grid rows
+    gridRowCount = gridComputedStyle.getPropertyValue('grid-template-rows').split(' ').length;
+
     const gridContainer = document.getElementById('grid-container');
     const cells = gridContainer.querySelectorAll('.grid-item'); // The class name is 'grid-item'
     const weightsArray = [];
@@ -38,16 +38,14 @@ function isEqual(a, b) {
     return a[0] === b[0] && a[1] === b[1];
 }
 
-function run() {
+async function run() {
     console.clear();
-    gridColumnCount = gridComputedStyle.getPropertyValue('grid-template-columns').split(' ').length;
-    gridRowCount = gridComputedStyle.getPropertyValue('grid-template-rows').split(' ').length;
     const weights = extractNumbersFromGrid();
-    const shortestPathCoords = dijkstra(weights);
+    const shortestPathCoords = await dijkstra(weights);
     animate(shortestPathCoords);
 }
 
-function dijkstra(distances) {
+async function dijkstra(distances) {
     const n = distances.length; // Number of rows
     const m = distances[0].length; // Number of columns
     const costs = Array(n * m).fill(Infinity);
@@ -73,6 +71,9 @@ function dijkstra(distances) {
 
         const row = Math.floor(node / m);
         const col = node % m;
+
+        // Highlight the cell being processed
+        await highlightCell(row, col);
 
         // Explore neighbors
         const neighbors = [
@@ -121,7 +122,7 @@ function dijkstra(distances) {
 }
 
 async function animate(coordinates) {
-    const animationDuration = 100; // milliseconds
+    const animationDuration = 60; // milliseconds
 
     async function changeCellColor(element, color) {
         element.style.background = color;
@@ -135,4 +136,12 @@ async function animate(coordinates) {
             await changeCellColor(cell, 'linear-gradient(to top, #FF7F27, #B127ED)');
         }
     }
+}
+
+async function highlightCell(row, col) {
+    const processingCell = gridContainer.querySelector(`[data-col="${col}"][data-row="${row}"]`);
+    processingCell.style.background = "lightGreen"; 
+    processingCell.style.color= "#444";
+    // Wait
+    await new Promise(resolve => setTimeout(resolve, 1 / (gridRowCount * gridColumnCount))); 
 }
