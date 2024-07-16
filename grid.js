@@ -1,9 +1,3 @@
-const column_slider = document.getElementById('ColumnRangeSlider');
-const row_slider = document.getElementById('RowRangeSlider');
-const column_count = document.getElementById('ColumnRange');
-const row_count = document.getElementById('RowRange');
-const variance_range = document.getElementById('VarianceRange');
-const variance_slider = document.getElementById('VarianceRangeSlider');
 const container = document.getElementById('grid-container');
 adaptColorMap = document.querySelector('#adapt');
 const colorMap = [
@@ -76,21 +70,3 @@ function getRandomNumber(n) {
 
 // Create a 20 x 20 default grid
 createGrid(20, 20, variance_range.innerHTML);
-
-// Update the current column_slider value
-column_slider.oninput = function() {
-    column_count.innerHTML = this.value;
-    createGrid(row_count.innerHTML, column_count.innerHTML, variance_range.innerHTML);
-};
-
-// Update the current row_slider value
-row_slider.oninput = function() {
-    row_count.innerHTML = this.value;
-    createGrid(row_count.innerHTML, column_count.innerHTML, variance_range.innerHTML);
-};
-
-// Update the current variance_slider value
-variance_slider.oninput = function() {
-    variance_range.innerHTML = this.value;
-    createGrid(row_count.innerHTML, column_count.innerHTML, variance_range.innerHTML);
-};
