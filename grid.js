@@ -1,5 +1,5 @@
 const container = document.getElementById('grid-container');
-adaptColorMap = document.querySelector('#adapt');
+const adaptColorMap = document.querySelector('#adapt');
 const colorMap = [
     "#EEF4FA", // 1-10
     "#DBE6F4", // 11-20
@@ -21,6 +21,7 @@ function calculateLuminance(hexColor) {
     return 0.2126 * r + 0.7152 * g + 0.0722 * b;
 }
 
+// Function to create a grid with specified num of rows, colums, and range of random number for cells
 function createGrid(rows, cols, rand_range) {
     const container = document.getElementById('grid-container');
     container.innerHTML = ''; // Clear any existing grid
