@@ -1,12 +1,15 @@
 <!DOCTYPE html>
 <head>
-    <title>Visualizer</title>
+    <title>Shortest Path Visualizer</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <!-- Button to open the swipe menu -->  
     <nav class="navbar">
         <button class="settings-button" onclick="openSwipeMenu()">&#x2699; Settings</button>
+        <div style="display: flex;">
+            <p class="distance-label">Shortest Distance Length: <span id="distLength" >_</span></p>
+        </div>
         <button class="run-button" onclick="run()">&#9658; Run</button>
     </nav>
 
@@ -15,27 +18,27 @@
     </div>
     <div class="swipe-menu">
         <span class="close-button" onclick="closeSwipeMenu()">×</span>
-        <!-- Menu content here -->
+        <!-- Settings content here -->
         <div class="settings">
             <p style="color: whitesmoke;">Column Count: <span id="ColumnRange">20</span></p>
-            <input type="range" min="5" max="40" value="20" class="slider" id="ColumnRangeSlider" onchange="extractNumbersFromGrid()">
+            <input type="range" min="5" max="40" value="20" class="slider" id="ColumnRangeSlider">
             <hr>
             <p style="color: whitesmoke;">Row Count: <span id="RowRange">20</span></p>
-            <input type="range" min="5" max="40" value="20" class="slider" id="RowRangeSlider" onchange="extractNumbersFromGrid()">  
+            <input type="range" min="5" max="40" value="20" class="slider" id="RowRangeSlider">  
             <hr>
             <p style="color: whitesmoke;">Random Distance Range: &#40;1-<span id="VarianceRange">95</span>&#41;</p>
-            <input type="range" min="10" max="99" value="95" class="slider" id="VarianceRangeSlider" onchange="extractNumbersFromGrid()">  
+            <input type="range" min="10" max="99" value="95" class="slider" id="VarianceRangeSlider">  
             <div style="margin-top: 12px;">
                 <label for="adaptColorMap" style="color: lightgrey;">
                 <input type="checkbox" id="adapt" value="false"> Adapt colorMap to range
                 </label>
             </div> 
             <hr>
-            <button class="randomize-button" onclick="createGrid(row_count.innerHTML, column_count.innerHTML, variance_range.innerHTML);">Randomize Weights</button>
+            <button class="randomize-button" onclick="createGrid(row_count.innerHTML, column_count.innerHTML, variance_range.innerHTML); resetDistLengthLabel();">Randomize Weights</button>
         </div>
     </div>
     <script src="settings.js"></script>
     <script src="grid.js"></script>
-    <script src="gridUtils.js" defer></script>    
+    <script src="gridUtils.js" defer></script>  
 </body>
 </html>
