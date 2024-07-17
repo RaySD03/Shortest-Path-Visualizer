@@ -4,6 +4,7 @@ const row_slider = document.getElementById('RowRangeSlider');
 const row_count = document.getElementById('RowRange');
 const variance_range = document.getElementById('VarianceRange');
 const variance_slider = document.getElementById('VarianceRangeSlider');
+const distLengthLabel = document.getElementById('distLength');
 
 function openSwipeMenu() {
     const menu = document.querySelector('.swipe-menu');
@@ -15,20 +16,27 @@ function closeSwipeMenu() {
     menu.style.right = '-300px'; // Slide the menu out to the right
 }
 
+function resetDistLengthLabel() {
+    distLengthLabel.innerHTML = "_";
+}
+
 // Update the current column_slider value
 column_slider.oninput = function() {
     column_count.innerHTML = this.value;
+    resetDistLengthLabel();
     createGrid(row_count.innerHTML, column_count.innerHTML, variance_range.innerHTML);
 };
 
 // Update the current row_slider value
 row_slider.oninput = function() {
     row_count.innerHTML = this.value;
+    resetDistLengthLabel();
     createGrid(row_count.innerHTML, column_count.innerHTML, variance_range.innerHTML);
 };
 
 // Update the current variance_slider value
 variance_slider.oninput = function() {
     variance_range.innerHTML = this.value;
+    resetDistLengthLabel();
     createGrid(row_count.innerHTML, column_count.innerHTML, variance_range.innerHTML);
 };
