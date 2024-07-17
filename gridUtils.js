@@ -154,3 +154,23 @@ async function highlightCell(row, col) {
 
     await new Promise(resolve => setTimeout(resolve, 1 / (gridRowCount * gridColumnCount))); 
 }
+
+function animateDistanceLabel(initDistance, totalDistance, duration) {
+    const startValue = initDistance;
+    const startTime = performance.now();
+
+    function updateNumber(timestamp) {
+        const elapsed = timestamp - startTime;
+        const progress = Math.min(elapsed / duration, 1);
+        const easedProgress = 1 - Math.pow(1 - progress, 3); // Cubic easing function
+
+        const currentValue = Math.round(easedProgress * (totalDistance - startValue) + startValue);
+        distLengthLabel.textContent = currentValue;
+
+        if (progress < 1) {
+            requestAnimationFrame(updateNumber);
+        }
+    }
+
+    requestAnimationFrame(updateNumber);
+}
