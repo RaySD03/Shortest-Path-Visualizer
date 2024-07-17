@@ -34,15 +34,13 @@ function extractNumbersFromGrid() {
     return weightsArray;    
 }
 
-function isEqual(a, b) {
-    return a[0] === b[0] && a[1] === b[1];
-}
-
 async function run() {
     console.clear();
+    distLengthLabel.innerHTML = "_";
     const weights = extractNumbersFromGrid();
-    const shortestPathCoords = await dijkstra(weights);
-    animate(shortestPathCoords);
+    const shortestPathResult = await dijkstra(weights);
+    animateShortestPath(shortestPathResult.coordinates);
+    animateDistanceLabel(0, shortestPathResult.distance, shortestPathResult.coordinates.length * 70);
 }
 
 async function dijkstra(distances) {
@@ -112,16 +110,27 @@ async function dijkstra(distances) {
         col: index % m
     }));
 
+    // Calculate the distance of the shortest path and update distance label
+    let totalDistance = 0;
+    for (let i = 1; i < cellCoordinates.length; i++) {
+        const { row, col } = cellCoordinates[i];
+        totalDistance += distances[row][col];
+    }
+
      // Print the coordinates (row and column indices) of the shortest path
-     console.log('Coordinates of each cell in the shortest path:');
+     console.log('Coordinates of all cells in the shortest path:');
      for (const { row, col } of cellCoordinates) {
         console.log(`Row: ${row}, Column: ${col}`);
      }
  
-    return cellCoordinates;
+    // Return an object with coordinates and distance
+    return {
+        coordinates: cellCoordinates,
+        distance: totalDistance
+    };
 }
 
-async function animate(coordinates) {
+async function animateShortestPath(coordinates) {
     const animationDuration = 60; // milliseconds
 
     async function changeCellColor(element, color) {
@@ -133,15 +142,15 @@ async function animate(coordinates) {
         const cell = gridContainer.querySelector(`[data-col="${col}"][data-row="${row}"]`);
         if (cell) {
             cell.style.color = 'white';
-            await changeCellColor(cell, 'linear-gradient(to top, #FF7F27, #B127ED)');
+            await changeCellColor(cell, 'linear-gradient(to top, #6F7CDB, #AD80DB)');
         }
     }
 }
 
 async function highlightCell(row, col) {
     const processingCell = gridContainer.querySelector(`[data-col="${col}"][data-row="${row}"]`);
-    processingCell.style.background = "lightGreen"; 
+    processingCell.style.background = "#86DB74"; 
     processingCell.style.color= "#444";
-    // Wait
+
     await new Promise(resolve => setTimeout(resolve, 1 / (gridRowCount * gridColumnCount))); 
 }
